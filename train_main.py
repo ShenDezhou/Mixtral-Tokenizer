@@ -5,6 +5,7 @@ from tqdm import tqdm
 from datasets import load_dataset
 from tokenizers import SentencePieceBPETokenizer
 from transformers import LlamaTokenizerFast, TrainingArguments, AutoTokenizer
+from tokenizers import pre_tokenizers
 
 def main(args):
 
@@ -30,6 +31,7 @@ def main(args):
     # Train the SentencePieceBPETokenizer on the dataset
     tokenizer.train_from_iterator(
         iterator=dataset['text'],
+        initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
         vocab_size=args.vocab_size,
         show_progress=True,
         special_tokens=["<unk>", "<s>", "</s>", "<pad>", "<sep>"],
